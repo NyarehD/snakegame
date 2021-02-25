@@ -25,9 +25,11 @@ random_food();
 /* Make the canvas clean first and then create snake parts */
 function main(){
   if(hasGameEnded()){
-    if(confirm("Game Over!")){
+    if(confirm(`Game Over! Your score is ${score}. Do you want to restart the game?`)){
       location.reload();
-    };
+    }else{
+      
+    }
   }else{
     setTimeout(function onTick(){
       clearCanvas();  
@@ -37,6 +39,14 @@ function main(){
       main();
     }, 100);
   }
+}
+
+function onTick(){
+  clearCanvas();  
+  drawSnake();
+  drawFood();
+  moving();
+  main();
 }
 
 /* Clearing canvas */
@@ -77,7 +87,7 @@ function moving(){
 
 /* Navigation the snake with keyboard arrow keys and WASD keys */
 function changeDirection(event){
-  let keyPressed = event.keyCode;
+  let keyPressed;
 
   const leftKey = 37;
   const rightKey = 39;
@@ -87,12 +97,26 @@ function changeDirection(event){
   const aKey = 65;
   const sKey = 83;
   const dKey = 68;
-
+  
   let goingDown = dy === 10;
   let goingUp = dy === -10;
   let goingRight = dx === 10;
   let goingLeft = dx === -10;
   
+  if(typeof(event)==="string"){
+    if(event === "Up"){
+      keyPressed = upKey;
+    }else if(event === "Down"){
+      keyPressed = downKey;
+    }else if(event === "Left"){
+      keyPressed = leftKey;
+    }else if(event === "Right"){
+      keyPressed = rightKey;
+    }
+  }else{
+    keyPressed = event.keyCode;
+  }
+
   /* Determining which key is pressed for direction, WASD keys or arrow keys */
   const isLeftKeyPressed = leftKey === keyPressed || aKey === keyPressed;
   const isRightKeyPressed = rightKey === keyPressed || dKey === keyPressed;

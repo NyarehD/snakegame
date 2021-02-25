@@ -7,13 +7,25 @@
     <link href="style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <body class="game">
+    <div id="end">
+      <span class="end-score"></span>
+    </div>
+    <div class="game">
       <h1>Score : <span>0</span></h1>
       <canvas height="400" width="400" id="gameCanvas"></canvas>
       <div class="gamepad">
-        
+        <div class="up-container">
+          <img src="/assets/chevron-up-solid.svg" alt="aadf" onclick="changeDirection('Up')">
+        </div>
+        <div class="rightLeft-container">
+          <img src="/assets/chevron-left-solid.svg" alt="" onclick="changeDirection('Left')">
+          <img src="/assets/chevron-right-solid.svg" alt="" onclick="changeDirection('Right')">
+        </div>
+        <div class="downcontainer">
+          <img src="/assets/chevron-down-solid.svg" alt="" onclick="changeDirection('Down')">
+        </div>
       </div>
-    </body>
+    </>
 
     <script src="script.js"></script>
   </body>
