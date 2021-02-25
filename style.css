@@ -1,11 +1,22 @@
 body{
+    margin: 0;
+    padding: 0;
+}
+.game{
     display: flex;
     height: 100vh;
+    flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
     overflow: hidden;
     color: gr;
 }
+/* .game > h1 {
+    color: white;
+}
+.game > h1 > span{
+    color: white;
+} */
 #gameCanvas{
     border: 1px solid black;
     
