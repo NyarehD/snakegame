@@ -41,7 +41,7 @@ function startGame(){
 function main(){
   if(hasGameEnded()){
     if(confirm(`Game Over! Your score is ${score}. Do you want to restart the game?`)){
-      // Reassigning the snake start status in order to return to the beginning
+      // Reassigning the snake part original status in order to return to the beginning
       snake = [{x: 200, y: 200},
         {x: 190, y: 200},
         {x: 180, y: 200},
@@ -50,7 +50,8 @@ function main(){
       startGame();
     }else{
       displayScore.style.display = 'none';
-      startBtn.style.display = 'block'; 
+      startBtn.style.display = 'block';
+      clearCanvas(); 
     }
   }else{
     setTimeout(function onTick(){
