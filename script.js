@@ -1,16 +1,24 @@
 const canvas = document.getElementById("gameCanvas");
 const canvas_ctx = canvas.getContext("2d");
+let gameSpeed = 120;
+let score = 0;
+
+// Snake body start parts
 let snake = [{x: 200, y: 200},
   {x: 190, y: 200},
   {x: 180, y: 200},
   {x: 170, y: 200}
 ];
+
+// Deciding the direction of the snake
 let dx = 10;
 let dy = 0;
+
 let displayScore = document.getElementById('score');
 let startBtn = document.getElementById('startBtn');
 let scoreNum = document.getElementById('scoreNum');
-// For random fruit position
+
+// For random fruit position (making the variable global scope)
 let random_x;
 let random_y;
 
@@ -20,28 +28,19 @@ const background = 'lightGreen';
 const snakeFill = 'lightblue';
 const snakeStroke = 'darkBlue';
 
-let score = 0;
-
 // Calling the changeDirection function everytime the user click the navigation button 
 document.addEventListener("keydown", changeDirection);
 
 // Calling the clearCanvas function to display green playground
 clearCanvas();
 
-// Making the game start only when the user pressed the button
-function startGame(){
-  main();
-  random_food();
-  displayScore.style.display = 'block';
-  startBtn.style.display = 'none';
-}
 
 /* Make the canvas clean first and then create snake parts */
 // Also the core function of the game
 function main(){
   if(hasGameEnded()){
     if(confirm(`Game Over! Your score is ${score}. Do you want to restart the game?`)){
-      // Reassigning the snake part original status in order to return to the beginning
+      // Reassigning the snake part original start status in order to return to the beginning
       snake = [{x: 200, y: 200},
         {x: 190, y: 200},
         {x: 180, y: 200},
@@ -60,23 +59,37 @@ function main(){
       drawFood();
       moving();
       main();
-    }, 100);
+    }, gameSpeed);
   }
 }
-
 
 /* A function to loop through the snake object to create individual snake parts */
 function drawSnake(){
   snake.forEach(drawingSnakeParts);
 }
 
+// Making the game start only when the user pressed the button
+function startGame(){
+  main();
+  random_food();
+  displayScore.style.display = 'block';
+  startBtn.style.display = 'none';
+}
+
 /* functin for moving via dx and dy */
 function moving(){
   let head = {x: snake[0].x+dx, y: snake[0].y+dy};
   snake.unshift(head);
+
+  // If the snake has eaten the food
+  // Keep the head and generate new food
+  // Else, delete (pop) the last part
   if(snake[0].x === random_x && snake[0].y === random_y){
     score += 1;
     scoreNum.innerHTML = score;
+    if(gameSpeed>=80){
+      gameSpeed-=2;
+    }
     random_food();
   }else{
     snake.pop();
@@ -105,7 +118,8 @@ function changeDirection(event){
   let goingRight = dx === 10;
   let goingLeft = dx === -10;
   
-  // Deciding the parameter whether it is onscreen button or keyboard's key
+  // Deciding the parameter whether it is onscreen button or keyboard's key by checking data type
+  // If onscreen button, set the keyPressed to the clicked direction accrodingly
   if(typeof(event)==="string"){
     if(event === "Up"){
       keyPressed = upKey;
@@ -126,7 +140,7 @@ function changeDirection(event){
   const isUpKeyPressed = upKey === keyPressed || wKey === keyPressed;
   const isDownKeyPressed = downKey === keyPressed || sKey === keyPressed;
   
-  /* Ensuring the snake not to go backward and changes its direction*/
+  /* Ensuring the snake not to go backward and changing its direction*/
   if (isLeftKeyPressed && !goingRight){
     dx = -10;
     dy = 0;
@@ -142,11 +156,11 @@ function changeDirection(event){
   }
 }
 
-/* Checking game condition */
-/* If the snake has collided to the wall or itself */
+//  Checking game condition
+//  If the snake has collided to the wall or itself 
 function hasGameEnded(){
   /* Checking if the snake has collided itself */
-  for(var i = 4; i< snake.length; i++){
+  for(var i = 1; i< snake.length; i++){
     const hasCollidedItself = snake[0].x === snake[i].x && snake[0].y === snake[i].y;
     if(hasCollidedItself){
       return true;
@@ -184,7 +198,7 @@ function clearCanvas(){
   canvas_ctx.strokeRect(0,0,canvas.height, canvas.width);
 }
 
-/* function for drawing a snake part */
+/* Function for drawing individual snake part */
 function drawingSnakeParts(snakeParts){
   canvas_ctx.fillStyle = snakeFill;
   canvas_ctx.strokeStyle = snakeStroke;
