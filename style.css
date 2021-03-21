@@ -9,14 +9,7 @@ body{
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    color: gr;
 }
-/* .game > h1 {
-    color: white;
-}
-.game > h1 > span{
-    color: white;
-} */
 #gameCanvas{
     border: 1px solid black;
     
