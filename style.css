@@ -12,7 +12,6 @@ body{
 }
 #gameCanvas{
     border: 1px solid black;
-    
 }
 .gamepad{
     display: flex;
@@ -57,7 +56,6 @@ body{
     height: 100%;
     background-color: rgba(114, 114, 114, 0.664);
     top: 0;
-    
 }
 .end-score{
     font-size: 100px;
