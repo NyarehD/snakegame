@@ -22,18 +22,17 @@ let scoreNum = document.getElementById('scoreNum');
 let random_x;
 let random_y;
 
-/* Colors */
+// Snake body colors
 const border = 'black';
 const background = 'lightGreen';
 const snakeFill = 'lightblue';
 const snakeStroke = 'darkBlue';
 
-// Calling the changeDirection function everytime the user click the navigation button 
+// Calling the changeDirection function every time the user click the navigation button
 document.addEventListener("keydown", changeDirection);
 
 // Calling the clearCanvas function to display green playground
 clearCanvas();
-
 
 /* Make the canvas clean first and then create snake parts */
 // Also the core function of the game
@@ -76,13 +75,13 @@ function startGame(){
   startBtn.style.display = 'none';
 }
 
-/* functin for moving via dx and dy */
+/* function for moving via dx and dy */
 function moving(){
   let head = {x: snake[0].x+dx, y: snake[0].y+dy};
   snake.unshift(head);
 
   // If the snake has eaten the food
-  // Keep the head and generate new food
+  // Keep the tail and generate new food
   // Else, delete (pop) the last part
   if(snake[0].x === random_x && snake[0].y === random_y){
     score += 1;
@@ -106,7 +105,7 @@ function changeDirection(event){
   const downKey = 40;
   const rightKey = 39;
   
-  // For WASD keys snavigation
+  // For WASD keys navigation
   const wKey = 87;
   const aKey = 65;
   const sKey = 83;
@@ -119,7 +118,7 @@ function changeDirection(event){
   let goingLeft = dx === -10;
   
   // Deciding the parameter whether it is onscreen button or keyboard's key by checking data type
-  // If onscreen button, set the keyPressed to the clicked direction accrodingly
+  // If onscreen button, set the keyPressed to the clicked direction accordingly
   if(typeof(event)==="string"){
     if(event === "Up"){
       keyPressed = upKey;
@@ -134,7 +133,7 @@ function changeDirection(event){
     keyPressed = event.keyCode;
   }
   
-  /* Determining which key is pressed for direction, WASD keys or arrow keys */
+  // Determining which key is pressed for direction, WASD keys or arrow keys
   const isLeftKeyPressed = leftKey === keyPressed || aKey === keyPressed;
   const isRightKeyPressed = rightKey === keyPressed || dKey === keyPressed;
   const isUpKeyPressed = upKey === keyPressed || wKey === keyPressed;
@@ -159,15 +158,15 @@ function changeDirection(event){
 //  Checking game condition
 //  If the snake has collided to the wall or itself 
 function hasGameEnded(){
-  /* Checking if the snake has collided itself */
-  for(var i = 1; i< snake.length; i++){
+  // Checking if the snake has collided itself
+  for(let i = 1; i< snake.length; i++){
     const hasCollidedItself = snake[0].x === snake[i].x && snake[0].y === snake[i].y;
     if(hasCollidedItself){
       return true;
     }
   }
 
-  /* Checking if the snake has collided wall */
+  // Checking if the snake has collided wall
   const hitRightWall = snake[0].x > canvas.width - 10;
   const hitLeftWall = snake[0].x < 0;
   const hitUpWall = snake[0].y < 0;
@@ -183,6 +182,9 @@ function random_place(min, max){
 function random_food(){
   random_x = random_place(0, canvas.width - 10);
   random_y = random_place(0, canvas.height - 10);
+  // To make sure the food not to produce at snake parts
+  // Check if the food is generated at snake parts
+  // If true, produce food again.
   snake.forEach(function has_snake_eaten(snake_part){
     if(random_x === snake_part.x && random_y === snake_part.y){
       return random_food();
