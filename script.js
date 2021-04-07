@@ -38,17 +38,19 @@ clearCanvas();
 // Also the core function of the game
 function main(){
   if(hasGameEnded()){
+    // Reassigning the snake part original start status in order to return to the beginning
+    snake = [{x: 200, y: 200},
+      {x: 190, y: 200},
+      {x: 180, y: 200},
+      {x: 170, y: 200}
+    ];
     if(confirm(`Game Over! Your score is ${score}. Do you want to restart the game?`)){
-      // Reassigning the snake part original start status in order to return to the beginning
-      snake = [{x: 200, y: 200},
-        {x: 190, y: 200},
-        {x: 180, y: 200},
-        {x: 170, y: 200}
-      ];
       startGame();
+      score = 0;
     }else{
       displayScore.style.display = 'none';
       startBtn.style.display = 'block';
+      score = 0;
       clearCanvas(); 
     }
   }else{
@@ -85,7 +87,6 @@ function moving(){
   // Else, delete (pop) the last part
   if(snake[0].x === random_x && snake[0].y === random_y){
     score += 1;
-    scoreNum.innerHTML = score;
     if(gameSpeed>=80){
       gameSpeed-=2;
     }
@@ -93,6 +94,7 @@ function moving(){
   }else{
     snake.pop();
   }
+  scoreNum.innerHTML = score;
 }
 
 /* Navigation the snake with keyboard arrow keys and WASD keys */
@@ -165,7 +167,6 @@ function hasGameEnded(){
       return true;
     }
   }
-
   // Checking if the snake has collided wall
   const hitRightWall = snake[0].x > canvas.width - 10;
   const hitLeftWall = snake[0].x < 0;
