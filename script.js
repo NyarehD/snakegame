@@ -39,12 +39,12 @@ clearCanvas();
 function main(){
   if(hasGameEnded()){
     // Reassigning the snake part original start status in order to return to the beginning
-    snake = [{x: 200, y: 200},
-      {x: 190, y: 200},
-      {x: 180, y: 200},
-      {x: 170, y: 200}
-    ];
     if(confirm(`Game Over! Your score is ${score}. Do you want to restart the game?`)){
+      snake = [{x: 200, y: 200},
+        {x: 190, y: 200},
+        {x: 180, y: 200},
+        {x: 170, y: 200}
+      ];
       startGame();
       score = 0;
     }else{
@@ -54,15 +54,19 @@ function main(){
       clearCanvas(); 
     }
   }else{
-    setTimeout(function onTick(){
-      clearCanvas();  
-      drawSnake();
-      drawFood();
-      moving();
-      main();
-    }, gameSpeed);
+    setTimeout(coreGame(), gameSpeed);
   }
 }
+
+// A collection of functions for snake movement during game
+function coreGame(){
+  clearCanvas();  
+  drawSnake();
+  drawFood();
+  moving();
+  main();
+}
+
 
 /* A function to loop through the snake object to create individual snake parts */
 function drawSnake(){
