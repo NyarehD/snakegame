@@ -55,9 +55,9 @@ function main(){
   }else{
     setTimeout(()=>{
       clearCanvas();
+      moving();
       drawSnake();
       drawFood();
-      moving();
       main();
     }, gameSpeed);
   }
@@ -66,9 +66,9 @@ function main(){
 // A collection of functions for snake movement during game
 function coreGame(){
   clearCanvas();
+  moving();
   drawSnake();
   drawFood();
-  moving();
   main();
 }
 
@@ -175,6 +175,12 @@ function hasGameEnded(){
       return true;
     }
   }
+  // snake.map((snakePart)=>{
+  //   const hasCollidedItself = snake[0].x === snakePart.x && snake[0].y === snakePart.y; 
+  //   if(hasCollidedItself){
+  //     return true;
+  //   }
+  // })
   // Checking if the snake has collided wall
   const hitRightWall = snake[0].x > canvas.width - 10;
   const hitLeftWall = snake[0].x < 0;
@@ -194,7 +200,7 @@ function random_food(){
   // To make sure the food not to produce at snake parts
   // Check if the food is generated at snake parts
   // If true, produce food again.
-  snake.forEach(function has_snake_eaten(snake_part){
+  snake.map((snake_part)=>{
     if(random_x === snake_part.x && random_y === snake_part.y){
       return random_food();
     }
