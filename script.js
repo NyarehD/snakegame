@@ -34,51 +34,55 @@ document.addEventListener("keydown", changeDirection);
 // Calling the clearCanvas function to display green playground
 clearCanvas();
 
-/* Make the canvas clean first and then create snake parts */
-// Also the core function of the game
+// Make the canvas clean first and then create snake parts and also the core function of the game
 function main(){
   if(hasGameEnded()){
     // Reassigning the snake part original start status in order to return to the beginning
+    snake = [{x: 200, y: 200},
+      {x: 190, y: 200},
+      {x: 180, y: 200},
+      {x: 170, y: 200}
+    ];
+    clearCanvas();
     if(confirm(`Game Over! Your score is ${score}. Do you want to restart the game?`)){
-      snake = [{x: 200, y: 200},
-        {x: 190, y: 200},
-        {x: 180, y: 200},
-        {x: 170, y: 200}
-      ];
       startGame();
       score = 0;
     }else{
       displayScore.style.display = 'none';
       startBtn.style.display = 'block';
       score = 0;
-      clearCanvas(); 
     }
   }else{
-    setTimeout(coreGame(), gameSpeed);
+    setTimeout(()=>{
+      clearCanvas();
+      drawSnake();
+      drawFood();
+      moving();
+      main();
+    }, gameSpeed);
   }
 }
 
 // A collection of functions for snake movement during game
 function coreGame(){
-  clearCanvas();  
+  clearCanvas();
   drawSnake();
   drawFood();
   moving();
   main();
 }
 
-
-/* A function to loop through the snake object to create individual snake parts */
-function drawSnake(){
-  snake.forEach(drawingSnakeParts);
-}
-
 // Making the game start only when the user pressed the button
 function startGame(){
-  main();
+  coreGame();
   random_food();
   displayScore.style.display = 'block';
   startBtn.style.display = 'none';
+}
+
+// A function to loop through the snake object to create individual snake parts
+function drawSnake(){
+  snake.forEach(drawingSnakeParts);
 }
 
 /* function for moving via dx and dy */
@@ -213,6 +217,7 @@ function drawingSnakeParts(snakeParts){
   canvas_ctx.strokeRect(snakeParts.x, snakeParts.y, 10, 10);
 }
 
+//
 function drawFood(){
   canvas_ctx.fillStyle = 'red';
   canvas_ctx.strokeStyle = 'darkred';
