@@ -175,12 +175,7 @@ function hasGameEnded(){
       return true;
     }
   }
-  // snake.map((snakePart)=>{
-  //   const hasCollidedItself = snake[0].x === snakePart.x && snake[0].y === snakePart.y; 
-  //   if(hasCollidedItself){
-  //     return true;
-  //   }
-  // })
+
   // Checking if the snake has collided wall
   const hitRightWall = snake[0].x > canvas.width - 10;
   const hitLeftWall = snake[0].x < 0;
@@ -207,7 +202,7 @@ function random_food(){
   })
 }
 
-/* Clearing canvas */
+/* Clearing canvas so that no item remain on the canvas.*/
 function clearCanvas(){
   canvas_ctx.fillStyle = background;
   canvas_ctx.strokeStyle = border;
@@ -223,10 +218,34 @@ function drawingSnakeParts(snakeParts){
   canvas_ctx.strokeRect(snakeParts.x, snakeParts.y, 10, 10);
 }
 
-//
+//  Drawing food
 function drawFood(){
   canvas_ctx.fillStyle = 'red';
   canvas_ctx.strokeStyle = 'darkred';
   canvas_ctx.fillRect(random_x, random_y, 10, 10);
   canvas_ctx.strokeRect(random_x, random_y, 10, 10);
 }
+
+// For checking if the device is touch screen.
+function isTouchScreen() {
+  return 'ontouchstart' in document.documentElement;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
