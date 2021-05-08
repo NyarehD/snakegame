@@ -10,19 +10,19 @@ let dy = 0;
 // Snake body start parts
 let snake  = randomSnakeParts();
 
-let displayScore = document.getElementById('score');
-let startBtn = document.getElementById('startBtn');
-let scoreNum = document.getElementById('scoreNum');
+let displayScore = document.getElementById("score");
+let startBtn = document.getElementById("startBtn");
+let scoreNum = document.getElementById("scoreNum");
 
 // For random fruit position (making the variable global scope)
 let random_x;
 let random_y;
 
 // Snake body colors
-const border = 'black';
-const background = 'lightGreen';
-const snakeFill = 'lightblue';
-const snakeStroke = 'darkBlue';
+const border = "black";
+const background = "lightGreen";
+const snakeFill = "lightblue";
+const snakeStroke = "darkBlue";
 
 // Calling the changeDirection function every time the user click the navigation button
 document.addEventListener("keydown", changeDirection);
@@ -45,8 +45,8 @@ function main(){
       startGame();
       score = 0;
     }else{
-      displayScore.style.display = 'none';
-      startBtn.style.display = 'block';
+      displayScore.style.display = "none";
+      startBtn.style.display = "block";
       score = 0;
     }
   }else{
@@ -73,8 +73,8 @@ function coreGame(){
 function startGame(){
   coreGame();
   random_food();
-  displayScore.style.display = 'block';
-  startBtn.style.display = 'none';
+  displayScore.style.display = "block";
+  startBtn.style.display = "none";
 }
 
 // A function to loop through the snake object to create individual snake parts
@@ -196,11 +196,11 @@ function random_food(){
   // To make sure the food not to produce at snake parts
   // Check if the food is generated at snake parts
   // If true, produce food again.
-  snake.forEach(function has_snake_eaten(snake_part){
+  snake.forEach((snake_part)=> {
     if(random_x === snake_part.x && random_y === snake_part.y){
       return random_food();
     }
-  })
+  });
 }
 
 
@@ -222,8 +222,8 @@ function drawingSnakeParts(snakeParts){
 
 // Drawing food
 function drawFood(){
-  canvas_ctx.fillStyle = 'red';
-  canvas_ctx.strokeStyle = 'darkred';
+  canvas_ctx.fillStyle = "red";
+  canvas_ctx.strokeStyle = "darkred";
   canvas_ctx.fillRect(random_x, random_y, 10, 10);
   canvas_ctx.strokeRect(random_x, random_y, 10, 10);
 }

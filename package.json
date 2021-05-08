@@ -1,0 +1,25 @@
+{
+  "name": "config",
+  "version": "2.0.0",
+  "description": "Just a simple snake game",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NyarehD/snakegame.git"
+  },
+  "keywords": [
+    "None"
+  ],
+  "author": "NyarehD",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/NyarehD/snakegame/issues"
+  },
+  "homepage": "https://github.com/NyarehD/snakegame#readme",
+  "devDependencies": {
+    "eslint": "^7.26.0"
+  }
+}
