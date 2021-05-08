@@ -4,11 +4,10 @@ let gameSpeed = 120;
 let score = 0;
 
 // Snake body start parts
-let snake;
-const snakeStartParts = snake = [{x: 200, y: 200},
-    {x: 190, y: 200},
-    {x: 180, y: 200},
-    {x: 170, y: 200}
+let snake = [{x: 200, y: 200},
+  {x: 190, y: 200},
+  {x: 180, y: 200},
+  {x: 170, y: 200}
 ];
 
 // Deciding the direction of the snake
@@ -39,7 +38,10 @@ clearCanvas();
 function main(){
   if(hasGameEnded()){
     // Reassigning the snake part original start status in order to return to the beginning
-    snake = snakeStartParts;
+    snake = [{x: 200, y: 200},
+      {x: 190, y: 200},
+      {x: 180, y: 200},
+      {x: 170, y: 200}
     ];
     clearCanvas();
     if(confirm(`Game Over! Your score is ${score}. Do you want to restart the game?`)){
