@@ -4,8 +4,7 @@ let gameSpeed = 120;
 let score = 0;
 
 // Snake body start parts
-let snake, snakeStartParts;
-snakeStartParts = snake  = [
+let snake  = [
   {x: 200, y: 200},
   {x: 190, y: 200},
   {x: 180, y: 200},
@@ -40,7 +39,12 @@ clearCanvas();
 function main(){
   if(hasGameEnded()){
     // Reassigning the snake part original start status in order to return to the beginning
-    snake = snakeStartParts;
+    snake = [
+      {x: 200, y: 200},
+      {x: 190, y: 200},
+      {x: 180, y: 200},
+      {x: 170, y: 200}
+    ];;
     clearCanvas();
     if(confirm(`Game Over! Your score is ${score}. Do you want to restart the game?`)){
       startGame();
@@ -187,7 +191,6 @@ function random_place(min, max){
 }
 
 // For random_x and random_y
-
 function randomXY(){
   return random_place(0, canvas.width - 10);
 }
@@ -232,6 +235,7 @@ function drawFood(){
 
 // random start place
 function randomSnakeParts(){
-  let random_y = random_place(0, canvas-width);
-  let random
+  let random_x = randomXY();
+  let random_y = randomXY();
+
 }
