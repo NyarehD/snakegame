@@ -3,17 +3,12 @@ const canvas_ctx = canvas.getContext("2d");
 let gameSpeed = 120;
 let score = 0;
 
-// Snake body start parts
-let snake  = [
-  {x: 200, y: 200},
-  {x: 190, y: 200},
-  {x: 180, y: 200},
-  {x: 170, y: 200}
-];
-
 // Deciding the direction of the snake
-let dx = 10;
+let dx = 0;
 let dy = 0;
+
+// Snake body start parts
+let snake  = randomSnakeParts();
 
 let displayScore = document.getElementById('score');
 let startBtn = document.getElementById('startBtn');
@@ -44,7 +39,7 @@ function main(){
       {x: 190, y: 200},
       {x: 180, y: 200},
       {x: 170, y: 200}
-    ];;
+    ];
     clearCanvas();
     if(confirm(`Game Over! Your score is ${score}. Do you want to restart the game?`)){
       startGame();
@@ -67,10 +62,10 @@ function main(){
 
 // A collection of functions for snake movement during game
 function coreGame(){
-  clearCanvas();
-  drawSnake();
-  drawFood();
   moving();
+  drawSnake();
+  clearCanvas();
+  drawFood();
   main();
 }
 
@@ -237,5 +232,19 @@ function drawFood(){
 function randomSnakeParts(){
   let random_x = randomXY();
   let random_y = randomXY();
+  (randomDirection() === dx) ? dx += 10 : dy += 10;
+  let snakeStart;
+  snakeStart = [
+    {x: random_x, y: random_y},
+    {x: random_x += dx, y: random_y += dy},
+    {x: random_x += dx, y: random_y += dy},
+    {x: random_x += dx, y: random_y += dy}
+  ];
+  return snakeStart;
+}
 
+// Random direction
+function randomDirection() {
+  let directions = [dx, dy];
+  return directions[Math.floor(Math.random() * directions.length)];
 }
