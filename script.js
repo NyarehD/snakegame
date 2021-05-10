@@ -24,13 +24,13 @@ const background = "lightGreen";
 const snakeFill = "lightblue";
 const snakeStroke = "darkBlue";
 
-// Calling the changeDirection function every time the user click the navigation button
+/**Calling the changeDirection function every time the user click the navigation button */
 document.addEventListener("keydown", changeDirection);
 
 // Calling the clearCanvas function to display green playground
 clearCanvas();
 
-// Make the canvas clean first and then create snake parts and also the core function of the game
+/**Make the canvas clean first and then create snake parts and also the core function of the game */
 function main(){
   if(hasGameEnded()){
     // Reassigning the snake part original start status in order to return to the beginning
@@ -49,7 +49,10 @@ function main(){
       startBtn.style.display = "block";
       score = 0;
     }
-  }else{
+  } else {
+    /** 
+     * Moving snake after specific time
+     */
     setTimeout(()=>{
       clearCanvas();
       drawSnake();
@@ -60,7 +63,9 @@ function main(){
   }
 }
 
-// A collection of functions for snake movement during game
+/**
+ * A collection of functions for snake movement during game
+ */
 function coreGame(){
   moving();
   drawSnake();
@@ -69,7 +74,9 @@ function coreGame(){
   main();
 }
 
-// Making the game start only when the user pressed the button
+/**
+ * Making the game start only when the user pressed the button
+ */
 function startGame(){
   coreGame();
   random_food();
@@ -77,7 +84,9 @@ function startGame(){
   startBtn.style.display = "none";
 }
 
-// A function to loop through the snake object to create individual snake parts
+/**
+ * A function to loop through the snake object to create individual snake parts
+ */
 function drawSnake(){
   snake.forEach(drawingSnakeParts);
 }
@@ -102,8 +111,11 @@ function moving(){
   scoreNum.innerHTML = score;
 }
 
-/* Navigation the snake with keyboard arrow keys and WASD keys */
-function changeDirection(event){
+/**
+ * Navigation the snake with keyboard arrow keys and WASD keys  
+ * @param {KeyboardEvent} event Changing the direction of snake with Keyboard
+ */
+function changeDirection(event) {
   let keyPressed;
   
   // For arrow keys navigation
@@ -162,17 +174,19 @@ function changeDirection(event){
   }
 }
 
-//  Checking game condition
-//  If the snake has collided to the wall or itself 
+/**
+ * Checking game condition, if the snake has collided to the wall or itself
+ * @returns Has snake reached to its own body or wall
+ */
 function hasGameEnded(){
-  // Checking if the snake has collided itself
-  for(let i = 1; i< snake.length; i++){
+  /** Checking if the snake has collided itself */
+  for (let i = 1; i < snake.length; i++){
     const hasCollidedItself = snake[0].x === snake[i].x && snake[0].y === snake[i].y;
     if(hasCollidedItself){
       return true;
     }
   }
-  // Checking if the snake has collided wall
+  //  Checing if the snake has collided wall
   const hitRightWall = snake[0].x > canvas.width - 10;
   const hitLeftWall = snake[0].x < 0;
   const hitUpWall = snake[0].y < 0;
@@ -180,22 +194,35 @@ function hasGameEnded(){
   return hitRightWall || hitLeftWall || hitUpWall || hitBottomWall;
 }
 
-/* For generating random numbers */
+/**
+ * Generating random number between maxinum and minimun
+ * @param {Number} min Minimum Number
+ * @param {number} max Maximun Number 
+ * @returns A random number between maximun and minimun
+ */
 function random_place(min, max){
   return Math.round((Math.random()*(max - min) + min)/ 10)*10;
 }
 
-// For random_x and random_y
-function randomXY(){
+/**
+ * For generting random_x and random_y
+ * @returns random place within canvas
+ */
+function randomXY() {
   return random_place(0, canvas.width - 10);
 }
 
+/**
+ * Generating random food while checking not the food to be in snake body
+ */
 function random_food(){
   random_x = randomXY();
   random_y = randomXY();
-  // To make sure the food not to produce at snake parts
-  // Check if the food is generated at snake parts
-  // If true, produce food again.
+  /**
+   * To make sure the food not to produce at snake parts
+   * Check if the food is generated at snake parts
+   * If true, produce food again.
+   */
   snake.forEach((snake_part)=> {
     if(random_x === snake_part.x && random_y === snake_part.y){
       return random_food();
@@ -203,8 +230,9 @@ function random_food(){
   });
 }
 
-
-/* Clearing canvas */
+/**
+ * Clearing Canvas
+ */
 function clearCanvas(){
   canvas_ctx.fillStyle = background;
   canvas_ctx.strokeStyle = border;
@@ -212,15 +240,20 @@ function clearCanvas(){
   canvas_ctx.strokeRect(0,0,canvas.height, canvas.width);
 }
 
-/* Function for drawing individual snake part */
-function drawingSnakeParts(snakeParts){
+/**
+ * Generating individual snake parts
+ * @param {Object} snakeParts Individual snake parts with x and y object
+ */
+function drawingSnakeParts(snakeParts) {
   canvas_ctx.fillStyle = snakeFill;
   canvas_ctx.strokeStyle = snakeStroke;
   canvas_ctx.fillRect(snakeParts.x, snakeParts.y, 10, 10);
   canvas_ctx.strokeRect(snakeParts.x, snakeParts.y, 10, 10);
 }
 
-// Drawing food
+/**
+ * Drawing Food dot
+ */
 function drawFood(){
   canvas_ctx.fillStyle = "red";
   canvas_ctx.strokeStyle = "darkred";
@@ -228,8 +261,11 @@ function drawFood(){
   canvas_ctx.strokeRect(random_x, random_y, 10, 10);
 }
 
-// random start place
-function randomSnakeParts(){
+/**
+ * Generating random locations for x and y of snake parts
+ * @returns random snake start part
+ */
+function randomSnakeParts() {
   let random_x = randomXY();
   let random_y = randomXY();
   (randomDirection() === dx) ? dx += 10 : dy += 10;
@@ -243,7 +279,10 @@ function randomSnakeParts(){
   return snakeStart;
 }
 
-// Random direction
+/**
+ * To go to random direction at first
+ * @returns random directions
+ */
 function randomDirection() {
   let directions = [dx, dy];
   return directions[Math.floor(Math.random() * directions.length)];
