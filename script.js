@@ -1,15 +1,20 @@
+'use strict';
 const canvas = document.getElementById("gameCanvas");
 const canvas_ctx = canvas.getContext("2d");
 let gameSpeed = 120;
 let score = 0;
 
 // Deciding the direction of the snake
-let dx = 0;
+let dx = -10;
 let dy = 0;
-randomDirection();
 
 // Snake body start parts
-let snake = randomSnakeParts();
+let snake = [
+  {x: 200, y:200},
+  {x: 210, y: 200},
+  {x: 220, y: 200},
+  {x: 230, y: 200}
+];
 
 let displayScore = document.getElementById("score");
 let startBtn = document.getElementById("startBtn");
@@ -35,7 +40,12 @@ clearCanvas();
 function main() {
   if (hasGameEnded()) {
     // Reassigning the snake part original start status in order to return to the beginning
-    snake = randomSnakeParts();
+    snake = [
+      {x: 200, y:200},
+      {x: 210, y: 200},
+      {x: 220, y: 200},
+      {x: 240, y: 200}
+    ];
     console.log(snake);
     clearCanvas();
     if (confirm(`Game Over! Your score is ${score}. Do you want to restart the game?`)) {
@@ -92,7 +102,6 @@ function drawSnake() {
 function moving() {
   let head = { x: snake[0].x + dx, y: snake[0].y + dy };
   snake.unshift(head);
-
   // If the snake has eaten the food
   // Keep the tail and generate new food
   // Else, delete (pop) the last part
@@ -113,47 +122,20 @@ function moving() {
  * @param {KeyboardEvent} event Changing the direction of snake with Keyboard
  */
 function changeDirection(event) {
-  let keyPressed;
-
-  // For arrow keys navigation
-  const upKey = 38;
-  const leftKey = 37;
-  const downKey = 40;
-  const rightKey = 39;
-
-  // For WASD keys navigation
-  const wKey = 87;
-  const aKey = 65;
-  const sKey = 83;
-  const dKey = 68;
 
   // Checking the snake direction
-  let goingDown = dy === 10;
-  let goingUp = dy === -10;
-  let goingRight = dx === 10;
-  let goingLeft = dx === -10;
+  const goingDown = dy === 10;
+  const goingUp = dy === -10;
+  const goingRight = dx === 10;
+  const goingLeft = dx === -10;
 
-  // Deciding the parameter whether it is onscreen button or keyboard's key by checking data type
-  // If onscreen button, set the keyPressed to the clicked direction accordingly
-  if (typeof (event) === "string") {
-    if (event === "Up") {
-      keyPressed = upKey;
-    } else if (event === "Down") {
-      keyPressed = downKey;
-    } else if (event === "Left") {
-      keyPressed = leftKey;
-    } else if (event === "Right") {
-      keyPressed = rightKey;
-    }
-  } else {
-    keyPressed = event.keyCode;
-  }
+  // Determining which key is pressed for direction, WASD keys or arrow keys or assets button
+  const isLeftKeyPressed = event.key === 'a' || event.key === 'ArrowLeft' || event === 'a';
+  const isRightKeyPressed =  event.key === 'd' || event.key === 'ArrowRight' || event === 'd';
+  const isUpKeyPressed = event.key === 'w' || event.key === 'ArrowUp' || event === 'w';
+  const isDownKeyPressed =  event.key === 's' || event.key === 'ArrowDown' || event === 's';
 
-  // Determining which key is pressed for direction, WASD keys or arrow keys
-  const isLeftKeyPressed = leftKey === keyPressed || aKey === keyPressed;
-  const isRightKeyPressed = rightKey === keyPressed || dKey === keyPressed;
-  const isUpKeyPressed = upKey === keyPressed || wKey === keyPressed;
-  const isDownKeyPressed = downKey === keyPressed || sKey === keyPressed;
+
 
   /* Ensuring the snake not to go backward and changing its direction*/
   if (isLeftKeyPressed && !goingRight) {
@@ -178,33 +160,35 @@ function changeDirection(event) {
 function hasGameEnded() {
   /** Checking if the snake has collided itself */
   for (let i = 1; i < snake.length; i++) {
-    const hasCollidedItself = snake[0].x === snake[i].x && snake[0].y === snake[i].y;
+    let hasCollidedItself = snake[0].x === snake[i].x && snake[0].y === snake[i].y;
     if (hasCollidedItself) {
       console.log("Collied itself");
       return true;
     }
   }
-  //  Checing if the snake has collided wall
+  //  Checking if the snake has collided wall
   const hitRightWall = snake[0].x > canvas.width - 10;
   const hitLeftWall = snake[0].x < 0;
   const hitUpWall = snake[0].y < 0;
   const hitBottomWall = snake[0].y > canvas.height - 10;
-  console.log("Collided wall");
+  if (hitRightWall || hitLeftWall || hitUpWall || hitBottomWall){
+    console.log('Collided wall')
+  }
   return hitRightWall || hitLeftWall || hitUpWall || hitBottomWall;
 }
 
 /**
- * Generating random number between maxinum and minimun
+ * Generating random number between maximum and minimum
  * @param {Number} min Minimum Number
- * @param {number} max Maximun Number 
- * @returns A random number between maximun and minimun
+ * @param {number} max Maximum Number
+ * @returns A random number between maximum and minimum
  */
 function random_place(min, max) {
   return Math.round((Math.random() * (max - min) + min) / 10) * 10;
 }
 
 /**
- * For generting random_x and random_y
+ * For generating random_x and random_y
  * @returns random place within canvas
  */
 function randomXY() {
@@ -260,24 +244,24 @@ function drawFood() {
   canvas_ctx.strokeRect(random_x, random_y, 10, 10);
 }
 
-/**
- * Generating random locations for x and y of snake parts
- */
-function randomSnakeParts() {
-  let random_x = randomXY();
-  let random_y = randomXY();
-  let snake = [
-    { x: random_x, y: random_y },
-    { x: random_x += dx, y: random_y += dy },
-    { x: random_x += dx, y: random_y += dy },
-    { x: random_x += dx, y: random_y += dy }
-  ];
-  return snake;
-}
-
-/**
- * To go to random direction at first
- */
-function randomDirection() {
-  (Math.round(Math.random())) ? dy = 10 : dx = 10;
-}
+// /**
+//  * Generating random locations for x and y of snake parts
+//  */
+// function randomSnakeParts() {
+//   let random_x = randomXY();
+//   let random_y = randomXY();
+//   let snake = [
+//     { x: random_x, y: random_y },
+//     { x: random_x += dx, y: random_y += dy },
+//     { x: random_x += dx, y: random_y += dy },
+//     { x: random_x += dx, y: random_y += dy }
+//   ];
+//   return snake;
+// }
+//
+// /**
+//  * To go to random direction at first
+//  */
+// function randomDirection() {
+//   (Math.round(Math.random())) ? dy = 10 : dx = 10;
+// }
