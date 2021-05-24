@@ -46,6 +46,8 @@ function main() {
       {x: 220, y: 200},
       {x: 240, y: 200}
     ];
+    dx = -10;
+    dy = 10;
     console.log(snake);
     clearCanvas();
     if (confirm(`Game Over! Your score is ${score}. Do you want to restart the game?`)) {
@@ -130,12 +132,10 @@ function changeDirection(event) {
   const goingLeft = dx === -10;
 
   // Determining which key is pressed for direction, WASD keys or arrow keys or assets button
-  const isLeftKeyPressed = event.key === 'a' || event.key === 'ArrowLeft' || event === 'a';
-  const isRightKeyPressed =  event.key === 'd' || event.key === 'ArrowRight' || event === 'd';
-  const isUpKeyPressed = event.key === 'w' || event.key === 'ArrowUp' || event === 'w';
-  const isDownKeyPressed =  event.key === 's' || event.key === 'ArrowDown' || event === 's';
-
-
+  const isLeftKeyPressed = (event.key || event) === ('a' || 'ArrowLeft');
+  const isRightKeyPressed =  (event.key || event) === ('d' || 'ArrowRight');
+  const isUpKeyPressed = (event.key || event) === ('w' || 'ArrowUp');
+  const isDownKeyPressed =  (event.key || event) === ('s' || 'ArrowDown');
 
   /* Ensuring the snake not to go backward and changing its direction*/
   if (isLeftKeyPressed && !goingRight) {
