@@ -47,7 +47,7 @@ function main() {
       {x: 240, y: 200}
     ];
     dx = -10;
-    dy = 10;
+    dy = 0;
     console.log(snake);
     clearCanvas();
     if (confirm(`Game Over! Your score is ${score}. Do you want to restart the game?`)) {
@@ -171,14 +171,11 @@ function hasGameEnded() {
   const hitLeftWall = snake[0].x < 0;
   const hitUpWall = snake[0].y < 0;
   const hitBottomWall = snake[0].y > canvas.height - 10;
-  if (hitRightWall || hitLeftWall || hitUpWall || hitBottomWall){
-    console.log('Collided wall')
-  }
   return hitRightWall || hitLeftWall || hitUpWall || hitBottomWall;
 }
 
 /**
- * Generating random number between maximum and minimum
+ * Generating random number between maximum and minimum parameter
  * @param {Number} min Minimum Number
  * @param {number} max Maximum Number
  * @returns A random number between maximum and minimum
@@ -189,7 +186,7 @@ function random_place(min, max) {
 
 /**
  * For generating random_x and random_y
- * @returns random place within canvas
+ * @returns random x and y coordinate within canvas
  */
 function randomXY() {
   return random_place(0, canvas.width - 10);
@@ -232,6 +229,7 @@ function drawingSnakeParts(snakeParts) {
   canvas_ctx.strokeStyle = snakeStroke;
   canvas_ctx.fillRect(snakeParts.x, snakeParts.y, 10, 10);
   canvas_ctx.strokeRect(snakeParts.x, snakeParts.y, 10, 10);
+  return "I love vscode";
 }
 
 /**
@@ -244,24 +242,3 @@ function drawFood() {
   canvas_ctx.strokeRect(random_x, random_y, 10, 10);
 }
 
-// /**
-//  * Generating random locations for x and y of snake parts
-//  */
-// function randomSnakeParts() {
-//   let random_x = randomXY();
-//   let random_y = randomXY();
-//   let snake = [
-//     { x: random_x, y: random_y },
-//     { x: random_x += dx, y: random_y += dy },
-//     { x: random_x += dx, y: random_y += dy },
-//     { x: random_x += dx, y: random_y += dy }
-//   ];
-//   return snake;
-// }
-//
-// /**
-//  * To go to random direction at first
-//  */
-// function randomDirection() {
-//   (Math.round(Math.random())) ? dy = 10 : dx = 10;
-// }
