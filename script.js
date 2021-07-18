@@ -1,9 +1,10 @@
 'use strict';
-// is general comment
 
-/** is comment for specific comment */
+// is for general comments
 
-// Connection from html elements
+/** is for specific comments */
+
+// Connection to html elements
 const canvas = document.getElementById("gameCanvas");
 const canvas_ctx = canvas.getContext("2d");
 const displayScore = document.getElementById("score");
@@ -19,7 +20,7 @@ const snakeStroke = "darkBlue";
 /** Determines the game speed but not very important. The lower the number, the faster the game but not lower than 80. */
 let gameSpeed = 120;
 
-/**Game Score*/
+/** Game Score */
 let score = 0;
 
 // Deciding the direction of the snake
@@ -101,8 +102,9 @@ function drawSnake() {
   snake.forEach(drawingSnakeParts);
 }
 
-/** A function for moving, and also for checking if the snake has eaten food.
- *  If eaten, increase score and lower the game refresh rate.
+/**
+ * A function for moving, and also for checking if the snake has eaten food.
+ * If eaten, increase score and lower the game refresh rate.
  */
 function moving() {
   let head = { x: snake[0].x + dx, y: snake[0].y + dy };
@@ -181,7 +183,7 @@ function hasGameEnded() {
 
 /**
  * Generating random number between maximum and minimum parameter
- * @param {Number} min Minimum Number
+ * @param {number} min Minimum Number
  * @param {number} max Maximum Number
  * @returns A random number between maximum and minimum
  */
@@ -193,7 +195,7 @@ function random_place(min, max) {
  * For generating random_x and random_y coordinates
  * @returns coordinate within canvas
  */
-function randomXY() {
+function randomCoordinate() {
   return random_place(0, canvas.width - 10);
 }
 
@@ -202,8 +204,8 @@ function randomXY() {
  */
 function random_food() {
   // Used global scope here so, drawFood function can access
-  random_x = randomXY();
-  random_y = randomXY();
+  random_x = randomCoordinate();
+  random_y = randomCoordinate();
 
   // To make sure the food not to produce at each snake part
   // Check if the food is generated at snake parts
@@ -234,7 +236,6 @@ function drawingSnakeParts(snakeParts) {
   canvas_ctx.strokeStyle = snakeStroke;
   canvas_ctx.fillRect(snakeParts.x, snakeParts.y, 10, 10);
   canvas_ctx.strokeRect(snakeParts.x, snakeParts.y, 10, 10);
-  return "I love vscode";
 }
 
 /**
